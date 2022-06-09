@@ -2,16 +2,28 @@ body {
   text-align: center;
   font-family: "Open Sans";
   font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #e1552b;
+  box-sizing: border-box;
+  margin: 1px;
 }
 
 h1 {
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: 600;
   margin: auto;
+  transform: translateY(-10px);
 }
+h2 {
+  font-size: 17px;
+  margin: none;
+}
+
 .center {
   min-height: 200px;
   min-width: 300px;
-  display: grid;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -92,8 +104,13 @@ input.toggle-control:checked + label::after {
 .toggle-switch-label {
   size: 16px;
 }
-.toggle-box {
-}
 .center label {
   justify-content: right;
+}
+.toggle-box {
+  display: flex;
+  justify-content: space-evenly;
+}
+#toggle-text {
+  justify-self: flex-end;
 }
