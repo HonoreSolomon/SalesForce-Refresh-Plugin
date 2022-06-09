@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popup</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open Sans"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="center">
+      <h1>SalesForce Refresh Extension</h1>
+      <div class="toggle-box">
+        <input
+          type="checkbox"
+          class="toggle-control"
+          id="toggle"
+          checked="true"
+        />
+        <label for="toggle"></label>
+      </div>
+    </div>
+    <div class="dropdown" id="list">
+      Set Refresh Interval
+      <select name="time" id="time">
+        <option value="90" selected>90 Seconds</option>
+        <option value="120">2 Minutes</option>
+        <option value="180">3 Minutes</option>
+        <option value="240">4 Minutes</option>
+        <option value="300">5 Minutes</option>
+        <option value="600">10 Minutes</option>
+        <option value="900">15 Minutes</option>
+        <option value="1200">20 Minutes</option>
+        <option value="1500">25 Minutes</option>
+        <option value="1800">30 Minutes</option>
+        <option value="3600">1 Hour</option>
+      </select>
+    </div>
+  </body>
+  <script src="popup.js"></script>
+</html>

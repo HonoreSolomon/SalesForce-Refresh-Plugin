@@ -1,0 +1,36 @@
+{
+  "name": "Salesforce Refresh Plugin",
+  "description": "Will continually refresh salesforce so that the page stays up continuously",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.salesforce.com/01Z*",
+        "*://*.salesforce.com/home/home.jsp*",
+        "*://*.force.com/*/01Z*",
+        "*://*.force.com/*/home/home.jsp*",
+        "*://*.force.com/01Z*",
+        "*://*.force.com/home/home.jsp*",
+        "*://*.salesforce.com/console*",
+        "*://*.lightning.force.com/one/one.app*",
+        "*://*.lightning.force.com/lightning/r/Dashboard/01Z*",
+        "*://*.lightning.force.com/lightning/page/home*",
+        "*://*.lightning.force.com/lightning/r/sObject/01Z*",
+        "*://*.cloudforce.com/01Z*",
+        "*://*.cloudforce.com/home/home.jsp*",
+        "*://*.cloudforce.com/console*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "/popup/popup.html"
+  }
+}
