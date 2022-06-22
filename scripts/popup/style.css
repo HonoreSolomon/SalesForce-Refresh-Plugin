@@ -10,17 +10,16 @@ h1 {
   font-weight: 600;
   color: white;
   margin: 0;
-  transform: translateY(-36px);
   background-color: #e1552b;
   width: 352px;
-  height: 48px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .container {
-  height: 250px;
+  height: 150px;
   width: 350px;
   display: flex;
   flex-direction: column;
@@ -36,8 +35,10 @@ h1 {
 }
 
 .dropdown {
-  display: block;
-  margin: 0px, 16px, 0px, 4px;
+  display: flex;
+  transform: translateY(-15px);
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 select {
@@ -54,6 +55,7 @@ select {
   white-space: pre;
   -webkit-rtl-ordering: logical;
   cursor: default;
+  margin: 5px;
 }
 
 .toggle-control {
@@ -66,10 +68,11 @@ input.toggle-control + label {
   height: 20px;
   background: #ddd;
   border-radius: 60px;
-
+  margin-top: 5px;
   cursor: pointer;
   outline: none;
   user-select: none;
+  align-self: center;
 }
 
 input.toggle-control + label::before,
@@ -110,9 +113,7 @@ input.toggle-control:checked + label::after {
 .toggle-box {
   display: flex;
   justify-content: space-evenly;
-
-  transform: translateY(-40px);
-}
-#toggle-text {
-  justify-self: flex-end;
+  flex-direction: column;
+  margin: 4px;
+  transform: translateY(-10px);
 }

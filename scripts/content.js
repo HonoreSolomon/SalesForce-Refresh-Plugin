@@ -6,19 +6,21 @@ let intervalId;
 //function to grab elements to click refresh button
 
 function forceRefresh() {
-  iframe = document.querySelector(
-    "#brandBand_2 > div > div > div > div > div.dashboardContainer > iframe"
-  );
-  if (iframe) {
-    refreshButton = iframe.contentDocument.querySelector(
-      "button.slds-button.refresh"
+  if (intervalId) {
+    iframe = document.querySelector(
+      "#brandBand_2 > div > div > div > div > div.dashboardContainer > iframe"
     );
-    console.log("found Button");
-  }
-  if (refreshButton) {
-    console.log(refreshButton);
-    if (!refreshButton.disabled) refreshButton.click();
-    if (refreshButton.disabled) iframe.contentWindow.location.reload();
+    if (iframe) {
+      refreshButton = iframe.contentDocument.querySelector(
+        "button.slds-button.refresh"
+      );
+      console.log("found Button");
+    }
+    if (refreshButton) {
+      console.log(refreshButton);
+      if (!refreshButton.disabled) refreshButton.click();
+      if (refreshButton.disabled) iframe.contentWindow.location.reload();
+    }
   }
 }
 
@@ -28,6 +30,7 @@ function clearRefreshInterval() {
   clearInterval(intervalId);
   //clear interval Id from varriable
   intervalId = null;
+  console.log(intervalId);
 }
 
 //sets interval id and function called
@@ -50,24 +53,23 @@ function getStorage() {
   });
 }
 
-// function setVarriable(storageValue) {
-//   refreshInterval = storageValue;
-//   console.log(refreshInterval);
-//   return refre
-// }
-
-//use a checked toggle button
-// let isChecked = chrome.storage.local.get(["checked"], function (result) {
-//   return result.checked;
-// });
-
-// if (isChecked)
-//on click interval is turned on and set initialy
-getStorage();
-
-// on change to storage aka refresh interval time the new value will be grabbed
-//and then the old interval id will be cleared along with setting the new one
 chrome.storage.onChanged.addListener(function () {
-  clearRefreshInterval();
-  getStorage();
+  chrome.storage.local.get(["sentinalPause"], function (result) {
+    console.log(`sentinal is set to ${result.sentinalPause}`);
+    let togglePause = result.sentinalPause;
+    console.log(togglePause);
+    if (!togglePause) {
+      console.log(togglePause);
+      getStorage();
+
+      // on change to storage aka refresh interval time the new value will be grabbed
+      //and then the old interval id will be cleared along with setting the new one
+      // chrome.storage.onChanged.addListener(function () {
+      clearRefreshInterval();
+      getStorage();
+      // });
+    } else {
+      clearRefreshInterval();
+    }
+  });
 });
