@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 body {
   text-align: center;
   font-family: "Open Sans";
@@ -7,38 +10,41 @@ body {
 
 h1 {
   font-size: 18px;
-  font-weight: 600;
   color: white;
   margin: 0;
+}
+.header {
   background-color: #e1552b;
-  width: 352px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: -1px;
+  text-align: center;
+  width: calc(100% + 2px);
+  margin-left: -1px;
+  padding: 15px;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
 .container {
-  height: 150px;
   width: 350px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 1ch;
-}
-
-.text {
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
 }
 
 .dropdown {
   display: flex;
-  transform: translateY(-15px);
   flex-direction: column;
+  padding: 15px;
+  align-items: center;
+}
+
+.toggle-box {
+  display: flex;
   justify-content: space-evenly;
+  flex-direction: column;
+  padding: 15px;
 }
 
 select {
@@ -109,11 +115,4 @@ input.toggle-control:checked + label::after {
 }
 .center label {
   justify-content: right;
-}
-.toggle-box {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  margin: 4px;
-  transform: translateY(-10px);
 }

@@ -1,3 +1,4 @@
+// Confirm script is injected
 console.log("fired content js");
 
 //initial interval value
@@ -5,71 +6,93 @@ let intervalId;
 
 //function to grab elements to click refresh button
 
-function forceRefresh() {
+function clickRefreshButtonProcess() {
   if (intervalId) {
-    iframe = document.querySelector(
+    // Grab frame containing refresh button
+    iframeEl = document.querySelector(
       "#brandBand_2 > div > div > div > div > div.dashboardContainer > iframe"
     );
-    if (iframe) {
-      refreshButton = iframe.contentDocument.querySelector(
+    if (iframeEl) {
+      refreshButton = iframeEl.contentDocument.querySelector(
         "button.slds-button.refresh"
       );
       console.log("found Button");
     }
     if (refreshButton) {
       console.log(refreshButton);
+      // checks if button is enabled
       if (!refreshButton.disabled) refreshButton.click();
-      if (refreshButton.disabled) iframe.contentWindow.location.reload();
+
+      // if button is disabled then there will be a force refresh of entire page
+      if (refreshButton.disabled) iframeEl.contentWindow.location.reload();
     }
+  }
+  if (!intervalId) {
+    console.log("There is no interval set");
   }
 }
 
 //clears interval id restarting interval for new value
 function clearRefreshInterval() {
   console.log(`Old IntervalId was ${intervalId}`);
+
   clearInterval(intervalId);
   //clear interval Id from varriable
   intervalId = null;
+
   console.log(intervalId);
 }
 
-//sets interval id and function called
+//sets interval id and also sets the interval
 function setRefreshInterval() {
-  // if (intervalId === null) {
-  intervalId = setInterval(forceRefresh, refreshInterval);
+  intervalId = setInterval(clickRefreshButtonProcess, refreshInterval);
+
   console.log(`New intervalId is ${intervalId}`);
-  // }
 }
 
-//grabs value varriable from storage and sets it to refresh interval
-function getStorage() {
-  chrome.storage.local.get(["value"], function (result) {
-    console.log(`Value currently is ${result.value}`);
-    console.log(result.value);
-    refreshInterval = result.value;
+//grabs value varriable from storage and sets it to refresh interval and calls refresh interval function
+function getTimerSelectValue() {
+  chrome.storage.local.get(["refreshTimerSelectValue"], function (result) {
+    console.log(
+      `Value currently is ${parseInt(result.refreshTimerSelectValue) * 100}`
+    );
+
+    refreshInterval = parseInt(result.refreshTimerSelectValue) * 100;
+
+    console.log(refreshInterval);
+
     setRefreshInterval();
-    // refreshInterval = result.value;
-    // console.log(refreshInterval);
   });
 }
 
-chrome.storage.onChanged.addListener(function () {
-  chrome.storage.local.get(["sentinalPause"], function (result) {
-    console.log(`sentinal is set to ${result.sentinalPause}`);
-    let togglePause = result.sentinalPause;
-    console.log(togglePause);
-    if (!togglePause) {
-      console.log(togglePause);
-      getStorage();
+function pluginProcess() {
+  //checks storage to see if refresh is enabled
+  chrome.storage.local.get(["isRefreshEnabled"], function (result) {
+    console.log(`sentinal is set to ${result.isRefreshEnabled}`);
 
-      // on change to storage aka refresh interval time the new value will be grabbed
-      //and then the old interval id will be cleared along with setting the new one
-      // chrome.storage.onChanged.addListener(function () {
+    let toggleRefresh = result.isRefreshEnabled;
+
+    console.log(toggleRefresh);
+    //if refresh is enabled the proccess continues
+    if (toggleRefresh) {
+      console.log("Refresh is enabled");
+
       clearRefreshInterval();
-      getStorage();
-      // });
-    } else {
+
+      getTimerSelectValue();
+    }
+    if (!toggleRefresh) {
+      console.log("Refresh is not enabled");
+
       clearRefreshInterval();
     }
   });
+}
+
+//init plugin process
+pluginProcess();
+
+// on change to storage starts plugin process again
+chrome.storage.onChanged.addListener(function () {
+  pluginProcess();
 });

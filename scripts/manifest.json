@@ -1,11 +1,8 @@
 {
   "name": "Salesforce Refresh Plugin",
   "description": "Will continually refresh salesforce so that the page stays up continuously",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": [

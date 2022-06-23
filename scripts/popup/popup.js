@@ -1,38 +1,63 @@
-const selectEl = document.getElementById("time");
-const toggleEl = document.getElementById("toggle");
-let togglePause = false;
+// Init the toggle value
 
-// function changeselected() {
-//   let selectedIndex = selectEl.selectedIndex;
-//   selectEl[selectedIndex].setAttribute("selected", true);
-// }
+chrome.storage.local.get(["isRefreshEnabled"], function (result) {
+  const storedRefreshCheckedValue = result.isRefreshEnabled;
 
-function selectedText() {
-  if (selectEl.selectedIndex == -1) return null;
-  return selectEl.options[selectEl.selectedIndex].value;
-}
+  const refreshEnableEl = document.getElementById("toggle");
 
-function setStorage() {
-  let selectedValue = selectedText();
-  let refreshTimer = parseInt(selectedValue) * 100;
-  chrome.storage.local.set({ value: refreshTimer }, function () {
-    console.log(`Refresh timer is set to ${refreshTimer} seconds`);
-  });
-}
+  if (storedRefreshCheckedValue) {
+    refreshEnableEl.checked = storedRefreshCheckedValue;
+  }
 
-// if (isChecked) {
-chrome.runtime.onStartup.addListener(setStorage);
+  if (!storedRefreshCheckedValue) {
+    refreshEnableEl.checked = false;
 
-toggleEl.addEventListener("click", function () {
-  togglePause = togglePause ? false : true;
-  console.log(togglePause);
-  chrome.storage.local.set({ sentinalPause: togglePause }, function () {
-    console.log(`pause button is ${togglePause}`);
-  });
+    console.log(refreshEnableEl.checked);
+
+    chrome.storage.local.set({ isRefreshEnabled: refreshEnableEl.checked });
+  }
+
+  console.log(`isRefreshEnabled: ${result.isRefreshEnabled}`);
 });
 
-selectEl.addEventListener("change", function () {
-  setStorage();
-  // changeselected();
+// Init the select value
+
+chrome.storage.local.get(["refreshTimerSelectValue"], function (result) {
+  const storedValue = result.refreshTimerSelectValue;
+
+  const refreshTimerSelectEl = document.getElementById("time");
+
+  if (storedValue) {
+    refreshTimerSelectEl.value = storedValue;
+  }
+
+  if (!storedValue) {
+    refreshTimerSelectEl.value = 90;
+
+    console.log(refreshTimerSelectEl.value);
+
+    chrome.storage.local.set({
+      refreshTimerSelectValue: refreshTimerSelectEl.value,
+    });
+  }
+
+  console.log(
+    `setRefreshTimerDropdownValue: ${result.refreshTimerSelectValue}`
+  );
 });
-// }
+
+// Store checked value on refresh enable button
+document.getElementById("toggle").addEventListener("click", function () {
+  chrome.storage.local.set({ isRefreshEnabled: this.checked });
+
+  console.log(this.checked);
+});
+
+// Store refresh timer select value
+document.getElementById("time").addEventListener("change", function () {
+  chrome.storage.local.set({
+    refreshTimerSelectValue: this.value,
+  });
+
+  console.log(this.value);
+});
