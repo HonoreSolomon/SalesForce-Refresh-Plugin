@@ -26,6 +26,11 @@
       "all_frames": true
     }
   ],
+  "icons": {
+    "16": "/images/renova_o_logo_16.png",
+    "48": "/images/renova_o_logo_48.png",
+    "128": "/images/renova_o_logo_128.png"
+  },
   "permissions": ["storage"],
   "action": {
     "default_popup": "/popup/popup.html"
