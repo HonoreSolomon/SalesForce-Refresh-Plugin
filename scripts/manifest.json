@@ -1,7 +1,7 @@
 {
-  "name": "Salesforce Refresh Plugin",
-  "description": "Will continually refresh salesforce so that the page stays up continuously",
-  "version": "1.0.0",
+  "name": "Salesforce Dashboard Refresh",
+  "description": "Refreshes the salesforce dashboard",
+  "version": "1.0.1",
   "manifest_version": 3,
   "content_scripts": [
     {
