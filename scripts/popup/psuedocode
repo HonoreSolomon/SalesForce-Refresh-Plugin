@@ -1,7 +1,0 @@
-When window is open, get the stored value for the refresh select
-If the stored refresh value does not exist, set it to 90
-Set the value of the refresh select element
-
-When the window is open, get the stored value for the enabled toggle
-If the stored toggle value does not exist, set it to false
-Set the value of the toggle element
