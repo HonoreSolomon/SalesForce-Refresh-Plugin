@@ -8,9 +8,9 @@ let intervalId;
 
 function clickRefreshButtonProcess() {
   if (intervalId) {
-    const refreshButton = null
+    let refreshButton = null
     // Grab frame containing refresh button
-    const iframeEl = document.querySelector("#brandBand_2 > div > div > div > div > div.dashboardContainer > iframe");
+    let iframeEl = document.querySelector("#brandBand_2 > div > div > div > div > div.dashboardContainer > iframe");
     
     if (iframeEl) {
       
@@ -47,7 +47,7 @@ function clearRefreshInterval() {
 }
 
 //sets interval id and also sets the interval
-function setRefreshInterval() {
+function setRefreshInterval(refreshInterval) {
   
   intervalId = setInterval(clickRefreshButtonProcess, refreshInterval);
 
@@ -59,11 +59,12 @@ function getTimerSelectValue() {
   chrome.storage.local.get(["refreshTimerSelectValue"], function (result) {
 
 
-    const refreshInterval = parseInt(result.refreshTimerSelectValue) * 1000;
+    let refreshInterval = parseInt(result.refreshTimerSelectValue) * 1000;
 
-    console.log(refreshInterval);
 
-    setRefreshInterval();
+
+
+    setRefreshInterval(refreshInterval);
   });
 }
 
@@ -71,11 +72,11 @@ function pluginProcess() {
   //checks storage to see if refresh is enabled
   chrome.storage.local.get(["isRefreshEnabled"], function (result) {
     
-    console.log(`sentinal is set to ${result.isRefreshEnabled}`);
 
-    const toggleRefresh = result.isRefreshEnabled;
 
-    console.log(toggleRefresh);
+    let toggleRefresh = result.isRefreshEnabled;
+
+
     //if refresh is enabled the proccess continues
     if (toggleRefresh) {
 
