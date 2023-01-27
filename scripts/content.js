@@ -1,86 +1,73 @@
-// Confirm script is injected
+let intervalId = null;
+const refreshButtonSelector = ".dashboardHeader .actionRibbon .actions .slds-button.refresh";
+const iframeSelector = ".dashboardContainer [title=dashboard]";
 
-//initial interval value
-let intervalId;
-
-//function to grab elements to click refresh button
-
-function clickRefreshButtonProcess() {
-  if (intervalId) {
-    let refreshButton = null;
-    // Grab frame containing refresh button
-    const iframeEl = document.querySelector(
-      ".dashboardContainer [title=dashboard]"
-    );
-
-    if (iframeEl) {
-      refreshButton = iframeEl.contentDocument.querySelector(
-        ".dashboardHeader .actionRibbon .actions .slds-button.refresh"
-      );
-    }
-    if (!iframeEl) {
-      console.log("error loading iframe");
-    }
-
-    if (refreshButton) {
-      // checks if button is enabled
-      if (!refreshButton.disabled) refreshButton.click();
-      console.log("success");
-      // if button is disabled then there will be a force refresh of entire page
-      if (refreshButton.disabled) iframeEl.contentWindow.location.reload();
-    }
-  }
-
-  if (!intervalId) {
-    console.log("error");
-  }
+/**
+ * Finds the refresh button element in the page
+ * @returns {HTMLElement|null} - the refresh button element, or null if not found
+ */
+const getRefreshButton = () => {
+    const iframeEl = document.querySelector(iframeSelector);
+    return iframeEl ? iframeEl.contentDocument.querySelector(refreshButtonSelector) : null;
 }
 
-//clears interval id restarting interval for new value
-function clearRefreshInterval() {
-  clearInterval(intervalId);
-
-  //clear interval Id from varriable
-
-  intervalId = null;
-}
-
-//sets interval id and also sets the interval
-function setRefreshInterval(refreshInterval) {
-  intervalId = setInterval(clickRefreshButtonProcess, refreshInterval);
-}
-
-//grabs value varriable from storage and sets it to refresh interval and calls refresh interval function
-function getTimerSelectValue() {
-  chrome.storage.local.get(["refreshTimerSelectValue"], function (result) {
-    const refreshInterval = parseInt(result.refreshTimerSelectValue) * 1000;
-
-    console.log("in");
-    setRefreshInterval(refreshInterval);
-  });
-}
-
-function pluginProcess() {
-  //checks storage to see if refresh is enabled
-  chrome.storage.local.get(["isRefreshEnabled"], function (result) {
-    const toggleRefresh = result.isRefreshEnabled;
-
-    //if refresh is enabled the proccess continues
-    if (toggleRefresh) {
-      clearRefreshInterval();
-
-      getTimerSelectValue();
+/**
+ * Clicks the refresh button if it's enabled, otherwise reloads the page
+ */
+const clickRefreshButton = () => {
+    const refreshButton = getRefreshButton();
+    if(!refreshButton) return console.log("Refresh button not found");
+    if(refreshButton.disabled) {
+        iframeEl.contentWindow.location.reload();
+    } else {
+        refreshButton.click();
     }
-    if (!toggleRefresh) {
-      clearRefreshInterval();
-    }
-  });
 }
 
-//init plugin process
+/**
+ * Clears the refresh interval
+ */
+const clearRefreshInterval = () => {
+    clearInterval(intervalId);
+    intervalId = null;
+}
+
+/**
+ * Sets the refresh interval
+ * @param {number} refreshInterval - the interval to set, in milliseconds
+ */
+const setRefreshInterval = (refreshInterval) => {
+    intervalId = setInterval(clickRefreshButton, refreshInterval);
+}
+
+/**
+ * Gets the refresh interval value from storage and sets it
+ */
+const getTimerSelectValue = () => {
+    chrome.storage.local.get(["refreshTimerSelectValue"], function (result) {
+        const refreshInterval = parseInt(result.refreshTimerSelectValue) * 1000;
+        setRefreshInterval(refreshInterval);
+    });
+}
+
+/**
+ * The main function that handles the refresh process
+ */
+const pluginProcess = () => {
+    chrome.storage.local.get(["isRefreshEnabled"], function (result) {
+        if (result.isRefreshEnabled) {
+            clearRefreshInterval();
+            getTimerSelectValue();
+        } else {
+            clearRefreshInterval();
+        }
+    });
+}
+
+// Initialize the plugin process
 pluginProcess();
 
-// on change to storage starts plugin process again
-chrome.storage.onChanged.addListener(function () {
-  pluginProcess();
+// Listen for changes to storage and re-run the plugin process
+chrome.storage.onChanged.addListener(() => {
+    pluginProcess();
 });
