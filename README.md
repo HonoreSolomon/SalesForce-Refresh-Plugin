@@ -1,20 +1,20 @@
-#Refresh Timer Extension
+# Refresh Timer Extension
 
-This is a chrome extension that allows the user to set a refresh timer for the current tab. The user can enable or disable the refresh timer and also set the duration of the timer.
-Getting Started
+This is a Google Chrome extension that allows the user to enable automatic refreshing of the current tab and set the refresh interval.
 
-To use this extension, simply install it from the chrome webstore and click on the extension icon to open the settings page. From there, you can enable or disable the refresh timer and set the duration of the timer.
-How it works
+## Features
+- Enable/disable automatic refresh
+- Set refresh interval in seconds
+- Store user preferences in chrome.storage
 
-The extension uses the chrome storage API to store the settings for the refresh timer. The settings include the status of the refresh timer (enabled or disabled) and the duration of the timer. The extension then uses the chrome tabs API to refresh the current tab at the specified interval.
-Features
+## Getting Started
+1. Download and install the extension from the [Chrome Web Store](https://chrome.google.com/webstore/).
+2. Click on the extension icon in the top right corner of your browser.
+3. Use the toggle button to enable/disable automatic refresh.
+4. Use the dropdown to select the desired refresh interval.
 
-    Enable or disable the refresh timer
-    Set the duration of the timer
-    Uses chrome storage API to store settings
-    Uses chrome tabs API to refresh the current tab
 
-Technologies
+##Technologies
 
     JavaScript
     HTML
@@ -22,6 +22,11 @@ Technologies
     Chrome Storage API
     Chrome Tabs API
 
-Authors
 
-    Honore Solomon
+## Technical Details
+The extension uses the chrome.storage API to store the user's preferences, so the settings will persist even after the browser is closed. The code is written in JavaScript and HTML.
+
+## Contributing
+We welcome contributions to this project. If you have any suggestions or find a bug, please open an issue on the [refresh-timer-extension](https://github.com/honoresolomon/refresh-timer-extension).
+
+
