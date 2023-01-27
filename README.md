@@ -1,4 +1,4 @@
-Refresh Timer Extension
+#Refresh Timer Extension
 
 This is a chrome extension that allows the user to set a refresh timer for the current tab. The user can enable or disable the refresh timer and also set the duration of the timer.
 Getting Started
