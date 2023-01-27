@@ -14,7 +14,7 @@ This is a Google Chrome extension that allows the user to enable automatic refre
 4. Use the dropdown to select the desired refresh interval.
 
 
-##Technologies
+## Technologies
 
     JavaScript
     HTML
