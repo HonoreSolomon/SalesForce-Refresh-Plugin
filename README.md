@@ -26,7 +26,5 @@ This is a Google Chrome extension that allows the user to enable automatic refre
 ## Technical Details
 The extension uses the chrome.storage API to store the user's preferences, so the settings will persist even after the browser is closed. The code is written in JavaScript and HTML.
 
-## Contributing
-We welcome contributions to this project. If you have any suggestions or find a bug, please open an issue on the [refresh-timer-extension](https://github.com/honoresolomon/refresh-timer-extension).
 
 
